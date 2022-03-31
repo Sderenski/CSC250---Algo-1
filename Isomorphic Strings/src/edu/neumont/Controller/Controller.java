@@ -41,12 +41,68 @@ public class Controller {
         fileExists();
         for (var word : fileWords){
             exactHashAdding(word.toCharArray(), word);
-            // iterate through the chars in the word
-            // checking if the char is new or repeated
+            looseHashAdding(word.toCharArray(), word);
         }
-        view.displayExact(exactISO);
+        view.display(exactISO, true);
+        view.display(looseISO, false);
 
     }
+
+    // function to check if the letters have been used before or not
+    // Find a way to iterate through the hashmap and if it isn't there
+    // add it and create a new value for it
+    private void exactHashAdding(char[] wordChar, String word){
+        int offSet = 0;
+        ArrayList<Character> letters = new ArrayList<>();
+        ArrayList<Integer> isoValueInt = new ArrayList<>();
+        // Loops through the byte array
+        for (int i = 0; i < wordChar.length; i++) {
+            // Gets te count
+            int count = compareLetter(letters, wordChar, i);
+            if (count >= 0){
+                isoValueInt.add(count);
+                offSet++;
+            }else {
+                letters.add(wordChar[i]);
+                isoValueInt.add(i - offSet);
+            }
+        }
+        String key = stringBuilder(isoValueInt);
+        if (!checkKeys(key)) exactISO.put(key, new ArrayList<>());
+        exactISO.get(key).add(word);
+//        view.displayExact(exactISO);
+        //exactISOAssign(charMap, word);
+    }
+
+
+    private void looseHashAdding(char[] wordChar, String word){
+        // Creating loose Isomorphs
+        // Read through the bytes and iterate through them
+        // Add them to an array and check if there are any matching
+        // if so increase the number
+        int counter;
+        ArrayList<Integer> isoValueInt = new ArrayList<>();
+
+        // Fix this loop, There is an issue with it. Not givin the correct results for
+        // the checking of repeated letters.
+        for (int i = 0; i < wordChar.length; i++) {
+            counter = 1;
+            for (int k = 1; k < wordChar.length; k++) {
+                if (wordChar[i] == wordChar[k]){
+                    counter++;
+                }
+            }
+            isoValueInt.add(counter);
+        }
+
+        String key = stringBuilder(isoValueInt);
+        if (!checkKeys(key)) looseISO.put(key, new ArrayList<>());
+        looseISO.get(key).add(word);
+    }
+
+
+
+    // ******* Helper Functions **********************
 
     // Checking to see if the value exists or not
     private void fileExists(){
@@ -67,31 +123,6 @@ public class Controller {
             }
         }
     }
-
-    // function to check if the letters have been used before or not
-    // Find a way to iterate through the hashmap and if it isn't there
-    // add it and create a new value for it
-    private void exactHashAdding(char[] wordChar, String word){
-        int offSet = 0;
-        ArrayList<Character> letters = new ArrayList<>();
-        ArrayList<Integer> isoValueInt = new ArrayList<>();
-        for (int i = 0; i < wordChar.length; i++) {
-            int count = compareLetter(letters, wordChar, i);
-            if (count >= 0){
-                isoValueInt.add(count);
-                offSet++;
-            }else {
-                letters.add(wordChar[i]);
-                isoValueInt.add(i - offSet);
-            }
-        }
-        String key = stringBuilder(isoValueInt);
-        if (!checkKeys(key)) exactISO.put(key, new ArrayList<>());
-        exactISO.get(key).add(word);
-//        view.displayExact(exactISO);
-        //exactISOAssign(charMap, word);
-    }
-
 
     // Tries to find if the letter has been found or not in the list, if so then return the key number
     private int compareLetter(ArrayList<Character> letters, char[] wordChar, int count){
