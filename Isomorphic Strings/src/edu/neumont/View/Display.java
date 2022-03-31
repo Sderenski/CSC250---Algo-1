@@ -8,7 +8,7 @@ public class Display {
     // show the keys first and then the values
     public void display(HashMap<String, ArrayList<String>> isoValue, boolean type){
         if (type) System.out.println("Exact Isomorphs");
-        else System.out.println("Loose Isomorphs");
+        else System.out.println("\nLoose Isomorphs");
         for (var key : isoValue.keySet()){
             System.out.print(key + ": ");
             for (var valueISO : isoValue.get(key)){

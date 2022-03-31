@@ -11,8 +11,7 @@ package edu.neumont.Controller;
         6.) Then add the ISO words to different array lists depending on their values
         7.) Output the values to console and text file.
 
-        I am confused what makes an Isometric value a non Iso string?
-
+        The non isometric strings are there because they are don't have a group that they are apart of. meaning they are they the only ones of that group.
 
         File Path for Input - TEST:
         C:\Users\sderenski\Downloads\IsomorphInput1.txt
@@ -68,10 +67,8 @@ public class Controller {
             }
         }
         String key = stringBuilder(isoValueInt);
-        if (!checkKeys(key)) exactISO.put(key, new ArrayList<>());
+        if (!checkKeys(key, exactISO)) exactISO.put(key, new ArrayList<>());
         exactISO.get(key).add(word);
-//        view.displayExact(exactISO);
-        //exactISOAssign(charMap, word);
     }
 
 
@@ -80,25 +77,44 @@ public class Controller {
         // Read through the bytes and iterate through them
         // Add them to an array and check if there are any matching
         // if so increase the number
-        int counter;
         ArrayList<Integer> isoValueInt = new ArrayList<>();
-
-        // Fix this loop, There is an issue with it. Not givin the correct results for
-        // the checking of repeated letters.
+        HashMap<Character, Integer> charValues = new HashMap<>();
+        // Loops through the byte array
         for (int i = 0; i < wordChar.length; i++) {
-            counter = 1;
-            for (int k = 1; k < wordChar.length; k++) {
-                if (wordChar[i] == wordChar[k]){
-                    counter++;
-                }
+            // For the loose value, we need to do a double nested for loop to iterate through the letters of the string
+            // if there is a double or triple, add up that number. Maybe use a hashmap to increase the numbers according to the letters?
+            if(charValues.containsKey(wordChar[i])){
+                 charValues.put(wordChar[i], charValues.get(wordChar[i]) + 1);
+            }else{
+                charValues.put(wordChar[i], 1);
             }
-            isoValueInt.add(counter);
         }
 
-        String key = stringBuilder(isoValueInt);
-        if (!checkKeys(key)) looseISO.put(key, new ArrayList<>());
-        looseISO.get(key).add(word);
+        String keyString = "";
+        for(char key : charValues.keySet()){
+            isoValueInt.add(charValues.get(key));
+        }
+        Collections.sort(isoValueInt);
+        for(var number : isoValueInt){
+            keyString += number;
+        }
+
+        if (!checkKeys(keyString, looseISO)) looseISO.put(keyString, new ArrayList<>());
+        looseISO.get(keyString).add(word);
     }
+
+    // Possible function to be used in creating a hashmap for the values....
+    private int countingLetter(ArrayList<Character> letters, char[] wordChar){
+        return 0;
+    }
+
+    // TODO after fixing the loose Isometric Function
+    // Filter out the non-isometric strings from the rest.
+    // Could filtering happen through the exact Iso finding? Like a check case of which groups are alone.
+
+
+
+
 
 
 
@@ -109,7 +125,7 @@ public class Controller {
         boolean quit = false;
         while(!quit){
             try{
-                fileString = Console.getString("Enter in File Path: ");
+                //fileString = Console.getString("Enter in File Path: ");
                 input = new BufferedReader(new FileReader("C:\\Users\\sderenski\\Downloads\\IsomorphInput1.txt"));
                 String line = input.readLine();
                 while(line != null){
@@ -136,8 +152,8 @@ public class Controller {
         return -1;
     }
 
-    private boolean checkKeys(String key){
-        for (String i : exactISO.keySet()){
+    private boolean checkKeys(String key, HashMap check){
+        for (var i : check.keySet()){
             if (i.equals(key)){
                 return true;
             }
