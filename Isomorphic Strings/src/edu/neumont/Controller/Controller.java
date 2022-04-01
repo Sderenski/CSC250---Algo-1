@@ -22,6 +22,7 @@ import example.lib.Console;
 import example.lib.IOStream;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.util.*;
@@ -29,11 +30,15 @@ import java.util.*;
 public class Controller {
     private Display view = new Display();
     private String fileString;
+    private String outTxt;
+    private File filePath;
     private BufferedReader input = null;
     private FileOutputStream output = null;
     private ArrayList<String> fileWords = new ArrayList<>();
+    private ArrayList<String> nonISO;
     private HashMap<String, ArrayList<String>> exactISO = new HashMap<>();
     private HashMap<String, ArrayList<String>> looseISO = new HashMap<>();
+
 
     // Main Run function
     public void run(){
@@ -42,8 +47,14 @@ public class Controller {
             exactHashAdding(word.toCharArray(), word);
             looseHashAdding(word.toCharArray(), word);
         }
-        view.display(exactISO, true);
-        view.display(looseISO, false);
+        filterNon(exactISO);
+        filterNon(looseISO);
+        sortingHashMaps();
+        outTxt = view.display(exactISO, true);
+        outTxt+=view.display(looseISO, false);
+        outTxt+=view.displayNon(nonISO);
+        outFile();
+
 
     }
 
@@ -90,29 +101,56 @@ public class Controller {
             }
         }
 
-        String keyString = "";
-        for(char key : charValues.keySet()){
-            isoValueInt.add(charValues.get(key));
-        }
-        Collections.sort(isoValueInt);
-        for(var number : isoValueInt){
-            keyString += number;
-        }
+        String keyString = countingLetter(isoValueInt, charValues);
 
         if (!checkKeys(keyString, looseISO)) looseISO.put(keyString, new ArrayList<>());
         looseISO.get(keyString).add(word);
     }
 
     // Possible function to be used in creating a hashmap for the values....
-    private int countingLetter(ArrayList<Character> letters, char[] wordChar){
-        return 0;
+    private String countingLetter(ArrayList<Integer> isoVal, HashMap<Character, Integer> charVal){
+        String str= "";
+        for(char key : charVal.keySet()){
+            isoVal.add(charVal.get(key));
+        }
+        Collections.sort(isoVal);
+        for(var number : isoVal){
+            str += number + " ";
+        }
+        return str;
+    }
+
+    private void sortingHashMaps(){
+        for (var key : looseISO.keySet()){
+            Collections.sort(looseISO.get(key));
+        }
+        for (var key : exactISO.keySet()){
+            Collections.sort(exactISO.get(key));
+        }
+        Collections.sort(nonISO);
     }
 
     // TODO after fixing the loose Isometric Function
     // Filter out the non-isometric strings from the rest.
     // Could filtering happen through the exact Iso finding? Like a check case of which groups are alone.
 
-
+    // Filter through the array lists after they are created in another function.
+    // This would work for both the hashmaps
+    private void filterNon(HashMap<String, ArrayList<String>> isoVals){
+        ArrayList<String> keysRemove = new ArrayList<>();
+        ArrayList<String> valuesAdded = new ArrayList<>();
+        for(var key : isoVals.keySet()){
+            if(isoVals.get(key).size() <= 1){
+                keysRemove.add(key);
+                valuesAdded.add(isoVals.get(key).get(0));
+            }
+        }
+        LinkedHashSet<String> rmDup = new LinkedHashSet<>(valuesAdded);
+        nonISO = new ArrayList<>(rmDup);
+        for (var keyRM : keysRemove){
+            isoVals.remove(keyRM);
+        }
+    }
 
 
 
@@ -125,8 +163,9 @@ public class Controller {
         boolean quit = false;
         while(!quit){
             try{
-                //fileString = Console.getString("Enter in File Path: ");
-                input = new BufferedReader(new FileReader("C:\\Users\\sderenski\\Downloads\\IsomorphInput1.txt"));
+                fileString = Console.getString("Enter in File Path: ");
+                filePath = new File(fileString);
+                input = new BufferedReader(new FileReader(fileString));
                 String line = input.readLine();
                 while(line != null){
                     fileWords.add(line);
@@ -139,6 +178,21 @@ public class Controller {
             }
         }
     }
+
+    // Outputting the arraylists and hashmaps to a file...
+    private void outFile(){
+        String outPath = filePath.getParent() + "\\output.txt";
+        // convert the outputs into strings in the display functions....
+        try{
+            FileOutputStream outputStream = new FileOutputStream(outPath);
+            IOStream.writeToStream(outTxt, outputStream);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+
+    }
+
+
 
     // Tries to find if the letter has been found or not in the list, if so then return the key number
     private int compareLetter(ArrayList<Character> letters, char[] wordChar, int count){
@@ -165,7 +219,7 @@ public class Controller {
     private String stringBuilder(ArrayList<Integer> strings){
         String fin = "";
         for (var str : strings){
-            fin += str;
+            fin += str + " ";
         }
         return fin;
     }
