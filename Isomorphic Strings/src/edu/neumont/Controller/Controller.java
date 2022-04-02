@@ -18,14 +18,11 @@ package edu.neumont.Controller;
      */
 
 import edu.neumont.View.Display;
-import example.lib.Console;
-import example.lib.IOStream;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileReader;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
+
 
 public class Controller {
     private Display view = new Display();
@@ -38,6 +35,8 @@ public class Controller {
     private ArrayList<String> nonISO;
     private HashMap<String, ArrayList<String>> exactISO = new HashMap<>();
     private HashMap<String, ArrayList<String>> looseISO = new HashMap<>();
+    Scanner scanner;
+
 
 
     // Main Run function
@@ -163,7 +162,7 @@ public class Controller {
         boolean quit = false;
         while(!quit){
             try{
-                fileString = Console.getString("Enter in File Path: ");
+                fileString = getString("Enter in File Path: ");
                 filePath = new File(fileString);
                 input = new BufferedReader(new FileReader(fileString));
                 String line = input.readLine();
@@ -185,7 +184,7 @@ public class Controller {
         // convert the outputs into strings in the display functions....
         try{
             FileOutputStream outputStream = new FileOutputStream(outPath);
-            IOStream.writeToStream(outTxt, outputStream);
+            writeToStream(outTxt, outputStream);
         }catch (Exception e){
             System.out.println(e.getMessage());
         }
@@ -222,5 +221,15 @@ public class Controller {
             fin += str + " ";
         }
         return fin;
+    }
+
+    public String getString(String prompt) {
+        System.out.print(prompt);
+        return scanner.nextLine();
+    }
+
+    public static void writeToStream(String string, OutputStream output) throws IOException {
+        byte[] bytes = string.getBytes(StandardCharsets.UTF_8);
+        output.write(bytes);
     }
 }
