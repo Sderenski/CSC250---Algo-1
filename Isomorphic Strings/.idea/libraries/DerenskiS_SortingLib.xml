@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="DerenskiS_SortingLib">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../SortingLibrary/out/artifacts/DerenskiS_SortingLib/DerenskiS_SortingLib.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -17,12 +17,12 @@ package edu.neumont.Controller;
         C:\Users\sderenski\Downloads\IsomorphInput1.txt
      */
 
+import edu.neumont.Static.Console;
+import edu.neumont.Static.IOStream;
 import edu.neumont.View.Display;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
-
 
 public class Controller {
     private Display view = new Display();
@@ -35,9 +35,6 @@ public class Controller {
     private ArrayList<String> nonISO;
     private HashMap<String, ArrayList<String>> exactISO = new HashMap<>();
     private HashMap<String, ArrayList<String>> looseISO = new HashMap<>();
-    Scanner scanner;
-
-
 
     // Main Run function
     public void run(){
@@ -162,7 +159,7 @@ public class Controller {
         boolean quit = false;
         while(!quit){
             try{
-                fileString = getString("Enter in File Path: ");
+                fileString = Console.getString("Enter in File Path: ");
                 filePath = new File(fileString);
                 input = new BufferedReader(new FileReader(fileString));
                 String line = input.readLine();
@@ -184,7 +181,7 @@ public class Controller {
         // convert the outputs into strings in the display functions....
         try{
             FileOutputStream outputStream = new FileOutputStream(outPath);
-            writeToStream(outTxt, outputStream);
+            IOStream.writeToStream(outTxt, outputStream);
         }catch (Exception e){
             System.out.println(e.getMessage());
         }
@@ -221,15 +218,5 @@ public class Controller {
             fin += str + " ";
         }
         return fin;
-    }
-
-    public String getString(String prompt) {
-        System.out.print(prompt);
-        return scanner.nextLine();
-    }
-
-    public static void writeToStream(String string, OutputStream output) throws IOException {
-        byte[] bytes = string.getBytes(StandardCharsets.UTF_8);
-        output.write(bytes);
     }
 }
