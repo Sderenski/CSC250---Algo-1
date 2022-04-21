@@ -2,6 +2,7 @@ package queens.game.Controller;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Scanner;
 
 import static queens.game.View.View.*;
 
@@ -15,12 +16,13 @@ public class Algo {
     private static HashMap<String, int[]> solutions = new HashMap<>();
     private static int steps = 0;
 
-    public static void nQueens(int n){
+    public static void nQueens(){
         // Passes the array to the rest of the functions down... Create an array list of ints?
         // if the number is -1 go back to the previous position.
+        int n = getInteger("Enter in number of Queens: ");
         int[] gameBrd = new int[n + 1];
         move(gameBrd, n);
-        System.out.println("Final: ");
+        System.out.println("n = " + n);
         displayQueen(solutions);
     }
 
@@ -37,6 +39,7 @@ public class Algo {
         int pVal = 1;
         while (pVal <= n){
             queens[p] = pVal;
+            steps++;
             moveR(queens, n, p + 1);
             pVal++;
         }
@@ -47,7 +50,8 @@ public class Algo {
         // Find a way to recurse back up. Chances are through a while loop....
         int pVal = 1;
         boolean broke = false;
-                while(pVal <= n){
+        while(pVal <= n){
+            steps++;
             // This save Conditional is breaking....
             // Why........
             if (checkFunctions(queens, p, pVal)){
@@ -56,6 +60,7 @@ public class Algo {
                 } else{
                     queens[p] = pVal;
                     if(p == n - 1 && queens[queens.length-2] != 0) {
+                        queens[queens.length-1] = steps;
                         solutions.put(convertString(queens), Arrays.copyOf(queens, queens.length));
                         broke = true;
                         break;
@@ -137,9 +142,24 @@ public class Algo {
         return finalStr;
     }
 
+    public static String getString(String prompt) {
+        System.out.print(prompt);
+        // returns a string
+        Scanner scanner = new Scanner(System.in);
+        return scanner.nextLine();
+    }
+    static int getInteger(String prompt) {
+        int i = 0;
 
-    // Count the steps....
-    private static void countSteps(){
-
+        boolean valid = false;
+        while (!valid) {
+            try {
+                i = Integer.parseInt(getString(prompt));
+                valid = true;
+            } catch (NumberFormatException ex) {
+                System.out.println("Invalid integer.");
+            }
+        }
+        return i;
     }
 }
