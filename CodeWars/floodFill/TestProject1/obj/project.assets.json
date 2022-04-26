@@ -45,6 +45,15 @@
         "build": {
           "build/net35/NUnit3TestAdapter.props": {}
         }
+      },
+      "floodFill/1.0.0": {
+        "type": "project",
+        "compile": {
+          "bin/placeholder/floodFill.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/floodFill.dll": {}
+        }
       }
     }
   },
@@ -156,13 +165,19 @@
         "nunit3testadapter.3.16.1.nupkg.sha512",
         "nunit3testadapter.nuspec"
       ]
+    },
+    "floodFill/1.0.0": {
+      "type": "project",
+      "path": "../floodFill/floodFill.csproj",
+      "msbuildProject": "../floodFill/floodFill.csproj"
     }
   },
   "projectFileDependencyGroups": {
     ".NETFramework,Version=v4.7.2": [
       "Microsoft.NET.Test.Sdk >= 16.5.0",
       "NUnit >= 3.12.0",
-      "NUnit3TestAdapter >= 3.16.1"
+      "NUnit3TestAdapter >= 3.16.1",
+      "floodFill >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -196,7 +211,11 @@
       "frameworks": {
         "net472": {
           "targetAlias": "net472",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\sderenski\\Documents\\Neumont\\2022 Spring\\CSC250 - Algo 1\\CodeWars\\floodFill\\floodFill\\floodFill.csproj": {
+              "projectPath": "C:\\Users\\sderenski\\Documents\\Neumont\\2022 Spring\\CSC250 - Algo 1\\CodeWars\\floodFill\\floodFill\\floodFill.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
@@ -222,7 +241,7 @@
             "version": "[3.16.1, )"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.406\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.407\\RuntimeIdentifierGraph.json"
       }
     }
   }

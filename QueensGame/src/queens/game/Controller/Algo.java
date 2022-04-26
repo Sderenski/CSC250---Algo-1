@@ -1,7 +1,7 @@
 package queens.game.Controller;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Scanner;
 
 import static queens.game.View.View.*;
@@ -13,15 +13,22 @@ public class Algo {
 
     // For finding the solutions, I am thinking that there is one main function to be
     // called then two versions of the same one for moving....
-    private static HashMap<String, int[]> solutions = new HashMap<>();
+    private static ArrayList<int[]> solutions = new ArrayList<>();
     private static int steps = 0;
 
     public static void nQueens(){
         // Passes the array to the rest of the functions down... Create an array list of ints?
         // if the number is -1 go back to the previous position.
         int n = getInteger("Enter in number of Queens: ");
-        int[] gameBrd = new int[n + 1];
-        move(gameBrd, n);
+        if(n == 1){
+            int[] singleSol = new int[2];
+            singleSol[0] = 1;
+            singleSol[1] = 1;
+            solutions.add(singleSol);
+        } else {
+            int[] gameBrd = new int[n + 1];
+            move(gameBrd, n);
+        }
         System.out.println("n = " + n);
         displayQueen(solutions);
     }
@@ -61,7 +68,7 @@ public class Algo {
                     queens[p] = pVal;
                     if(p == n - 1 && queens[queens.length-2] != 0) {
                         queens[queens.length-1] = steps;
-                        solutions.put(convertString(queens), Arrays.copyOf(queens, queens.length));
+                        solutions.add(Arrays.copyOf(queens, queens.length));
                         broke = true;
                         break;
                     } else {
@@ -131,15 +138,6 @@ public class Algo {
             }
         }
         return false;
-    }
-
-    // Converts to string from array
-    private static String convertString(int[] arr){
-        String finalStr = "";
-        for(int i = 0; i < arr.length - 1; i++){
-            finalStr += String.valueOf(arr[i]);
-        }
-        return finalStr;
     }
 
     public static String getString(String prompt) {

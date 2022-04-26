@@ -4,6 +4,21 @@
     "C:\\Users\\sderenski\\Documents\\Neumont\\2022 Spring\\CSC250 - Algo 1\\CodeWars\\floodFill\\TestProject1\\TestProject1.csproj": {}
   },
   "projects": {
+    "C:\\Users\\sderenski\\Documents\\Neumont\\2022 Spring\\CSC250 - Algo 1\\CodeWars\\floodFill\\floodFill\\floodFill.csproj": {
+      "restore": {
+        "projectUniqueName": "C:\\Users\\sderenski\\Documents\\Neumont\\2022 Spring\\CSC250 - Algo 1\\CodeWars\\floodFill\\floodFill\\floodFill.csproj",
+        "projectName": "floodFill",
+        "projectPath": "C:\\Users\\sderenski\\Documents\\Neumont\\2022 Spring\\CSC250 - Algo 1\\CodeWars\\floodFill\\floodFill\\floodFill.csproj",
+        "frameworks": {
+          "net472": {
+            "projectReferences": {}
+          }
+        }
+      },
+      "frameworks": {
+        "net472": {}
+      }
+    },
     "C:\\Users\\sderenski\\Documents\\Neumont\\2022 Spring\\CSC250 - Algo 1\\CodeWars\\floodFill\\TestProject1\\TestProject1.csproj": {
       "version": "1.0.0",
       "restore": {
@@ -31,7 +46,11 @@
         "frameworks": {
           "net472": {
             "targetAlias": "net472",
-            "projectReferences": {}
+            "projectReferences": {
+              "C:\\Users\\sderenski\\Documents\\Neumont\\2022 Spring\\CSC250 - Algo 1\\CodeWars\\floodFill\\floodFill\\floodFill.csproj": {
+                "projectPath": "C:\\Users\\sderenski\\Documents\\Neumont\\2022 Spring\\CSC250 - Algo 1\\CodeWars\\floodFill\\floodFill\\floodFill.csproj"
+              }
+            }
           }
         },
         "warningProperties": {
@@ -57,7 +76,7 @@
               "version": "[3.16.1, )"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.406\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.407\\RuntimeIdentifierGraph.json"
         }
       }
     }
